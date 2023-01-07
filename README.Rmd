@@ -1,10 +1,8 @@
 ---
 title: "README"
-author: "Zachary McCaw"
-date: "`r Sys.Date()`"
-output: 
-  html_document: 
-    keep_md: TRUE
+author: ""
+date: ""
+output: github_document
 --- 
 
 # Exponential Families
@@ -96,7 +94,7 @@ all.equal(quants, qnorm(p = c(0.25, 0.50, 0.75)), tolerance = 0.0001)
 
 ### Sampling
 
-Sample from an exponential family distribution. The utility of `rExpFam` is the ability to sample from distributions with $K > 2$, for which built-in functions (e.g. `rnorm`) are not available. The sample is obtained by numerically inverting the CDF. `rExpFam` requires an approximate search interval. To determine this interval, it is helpful to plot the density. 
+Sample from an exponential family distribution. The utility of `rExpFam` is the ability to sample from distributions with K > 2, for which built-in functions (e.g. `rnorm`) are not available. The sample is obtained by numerically inverting the CDF. `rExpFam` requires an approximate search interval. To determine this interval, it is helpful to plot the density. 
 
 ```{r}
 b_in <- c(-1, 2.5, -2.1875, 0.78125)
@@ -105,12 +103,12 @@ b <- NormalizingConstant(b_in)
 
 Density being sampled: 
 
-```{r, fig.align='center'}
+```{r, cache=TRUE, fig.align='center'}
 library(ggplot2)
 
 # Plot density.
 dens <- GetDensity(b)
-x <- seq(from = -2, to = 3, length.out = 301)
+x <- seq(from = -2, to = 3, length.out = 501)
 df <- data.frame(x = x, y = dens(x))
 q <- ggplot(data = df) + 
   theme_bw() + 

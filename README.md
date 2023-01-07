@@ -1,195 +1,165 @@
 # Exponential Families
 
-Zachary McCaw <br>
-Updated: 23-01-07
-
-
+Zachary McCaw <br> Updated: 23-01-07
 
 ### Description
 
-Collection of functions for working with exponential family distributions of the form:
-$$
+Collection of functions for working with exponential family
+distributions of the form: $$
 f(x) = \exp\left\{\sum_{k=0}^{K}\beta_{k}x^{k}\right\}
 $$
 
-Notes: 
+Notes:
 
-* If $K$ is even, the support of $f(x)$ is assumed to be $(-\infty, \infty)$. If $K$ is odd, the support is assumed to be $(0, \infty)$. 
+- If $K$ is even, the support of $f(x)$ is assumed to be
+  $(-\infty, \infty)$. If $K$ is odd, the support is assumed to be
+  $(0, \infty)$.
 
-* The coefficient of the highest order term, i.e. $\beta_{K}$ is assumed to be negative. 
+- The coefficient of the highest order term, i.e. $\beta_{K}$ is assumed
+  to be negative.
 
-* The coefficient of the constant term, i.e. $\beta_{0}$ is the log of the normalizing constant.
-
+- The coefficient of the constant term, i.e. $\beta_{0}$ is the log of
+  the normalizing constant.
 
 ## Installation
 
-
-```r
+``` r
 devtools::install_github(repo = "zrmacc/ExpFam")
 ```
-
 
 ## Functions
 
 ### Normalizing constant
 
-Given the coefficients of the non-constant terms $(\beta_{K}, \beta_{K-1}, \dots, \beta_{1})$, determine the log normalizing constant $\beta_{0}$. Note the coefficients of the non-constant terms are given in descending order. 
+Given the coefficients of the non-constant terms
+$(\beta_{K}, \beta_{K-1}, \dots, \beta_{1})$, determine the log
+normalizing constant $\beta_{0}$. Note the coefficients of the
+non-constant terms are given in descending order.
 
-
-```r
+``` r
 library(ExpFam)
 # Example of the standard normal distribution.
 b_in <- c(-0.5, 0)
 b_out <- NormalizingConstant(b_in)
 ```
 
-```
-## Assuming support (-inf, inf).
-```
+    ## Assuming support (-inf, inf).
 
-```r
+``` r
 print(b_out, digits = 3)
 ```
 
-```
-## [1] -0.500  0.000 -0.919
-```
+    ## [1] -0.500  0.000 -0.919
 
-```r
+``` r
 all.equal(b_out[3], -0.5 * log(2 * pi), tolerance = 0.0001)
 ```
 
-```
-## [1] TRUE
-```
-
+    ## [1] TRUE
 
 ### Density
 
-Obtain the density function. Note that the normalizing constant is provided hereafter.
+Obtain the density function. Note that the normalizing constant is
+provided hereafter.
 
-
-```r
+``` r
 # Example of the standard normal distribution.
 b <- c(-0.5, 0, -0.5 * log(2 * pi))
 dens <- GetDensity(b)
 ```
 
-```
-## Assuming support (-inf, inf).
-```
+    ## Assuming support (-inf, inf).
 
-```r
+``` r
 print(dens(0), digits = 3)
 ```
 
-```
-## [1] 0.399
-```
+    ## [1] 0.399
 
-```r
+``` r
 all.equal(dens(0), dnorm(0), tolerance = 0.0001)
 ```
 
-```
-## [1] TRUE
-```
-
+    ## [1] TRUE
 
 ### Cumulative distribution
 
 Obtain the cumulative distribution function.
 
-
-```r
+``` r
 # Example of the standard normal distribution.
 b <- c(-0.5, 0, -0.5 * log(2 * pi))
 cdf <- GetCDF(b)
 ```
 
-```
-## Assuming support (-inf, inf).
-```
+    ## Assuming support (-inf, inf).
 
-```r
+``` r
 print(cdf(1), digits = 3)
 ```
 
-```
-## [1] 0.841
-```
+    ## [1] 0.841
 
-```r
+``` r
 all.equal(cdf(1), pnorm(1), tolerance = 0.0001)
 ```
 
-```
-## [1] TRUE
-```
-
+    ## [1] TRUE
 
 ### Quantile
 
-Evaluate the quantile. Note `GetQuantile` does not return a function but instead performs the quantile evaluation. 
+Evaluate the quantile. Note `GetQuantile` does not return a function but
+instead performs the quantile evaluation.
 
-
-```r
+``` r
 # Example of the standard normal distribution.
 b <- c(-0.5, 0, -0.5 * log(2 * pi))
 quants <- GetQuantile(b, probs = c(0.25, 0.50, 0.75))
 ```
 
-```
-## Assuming support (-inf, inf).
-```
+    ## Assuming support (-inf, inf).
 
-```r
+``` r
 print(quants, digits = 3)
 ```
 
-```
-## [1] -6.74e-01  2.89e-15  6.74e-01
-```
+    ## [1] -6.74e-01  2.89e-15  6.74e-01
 
-```r
+``` r
 all.equal(quants, qnorm(p = c(0.25, 0.50, 0.75)), tolerance = 0.0001)
 ```
 
-```
-## [1] TRUE
-```
-
+    ## [1] TRUE
 
 ### Sampling
 
-Sample from an exponential family distribution. The utility of `rExpFam` is the ability to sample from distributions with $K > 2$, for which built-in functions (e.g. `rnorm`) are not available. The sample is obtained by numerically inverting the CDF. `rExpFam` requires an approximate search interval. To determine this interval, it is helpful to plot the density. 
+Sample from an exponential family distribution. The utility of `rExpFam`
+is the ability to sample from distributions with K \> 2, for which
+built-in functions (e.g. `rnorm`) are not available. The sample is
+obtained by numerically inverting the CDF. `rExpFam` requires an
+approximate search interval. To determine this interval, it is helpful
+to plot the density.
 
-
-```r
+``` r
 b_in <- c(-1, 2.5, -2.1875, 0.78125)
 b <- NormalizingConstant(b_in)
 ```
 
-```
-## Assuming support (-inf, inf).
-```
+    ## Assuming support (-inf, inf).
 
-Density being sampled: 
+Density being sampled:
 
-
-```r
+``` r
 library(ggplot2)
 
 # Plot density.
 dens <- GetDensity(b)
 ```
 
-```
-## Assuming support (-inf, inf).
-```
+    ## Assuming support (-inf, inf).
 
-```r
-x <- seq(from = -2, to = 3, length.out = 301)
+``` r
+x <- seq(from = -2, to = 3, length.out = 501)
 df <- data.frame(x = x, y = dens(x))
 q <- ggplot(data = df) + 
   theme_bw() + 
@@ -205,21 +175,16 @@ q <- ggplot(data = df) +
 show(q)
 ```
 
-<img src="README_files/figure-html/unnamed-chunk-7-1.png" style="display: block; margin: auto;" />
+<img src="README_files/figure-gfm/unnamed-chunk-7-1.png" style="display: block; margin: auto;" />
 
-
-```r
+``` r
 x <- rExpFam(b = b, n = 10, xmin = -2, xmax = 3)
 ```
 
-```
-## Assuming support (-inf, inf).
-```
+    ## Assuming support (-inf, inf).
 
-```r
+``` r
 round(x, digits = 3)
 ```
 
-```
-##  [1] -0.245 -0.265  0.636 -0.195  0.355  0.608 -0.068  0.940  0.426  1.236
-```
+    ##  [1]  1.024  1.350 -0.028  1.393  0.618  1.071 -0.097  1.267  1.240 -0.109

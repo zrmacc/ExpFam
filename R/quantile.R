@@ -41,26 +41,29 @@ ApproxQuantile <- function(b, x0 = 0.0) {
 #' # Standard normal distribution.
 #' q <- GetQuantile(b = c(-0.5, 0.0, -0.5 * log(2 * pi)), probs = 0.95)
 #' @export
-GetQuantile <- function(b, probs, xmin = -2, xmax = 2) {
+GetQuantile <- function(
+  b,
+  probs,
+  xmin = -2,
+  xmax = 2
+) {
   
-  len_b <- length(b)
-  cdf <- GetCDF(b)
-  
-  if (len_b %% 2 == 0) {
-    xmin <- max(0, xmin)
-  } 
-  
-  out <- sapply(probs, function(p) {
-    
-    g <- function(x) {cdf(x) - p}
-    q <- try(stats::uniroot(g, lower = xmin, upper = xmax, extendInt = "upX")$root)
-    if (is.numeric(q)) {
-      return(q)
-    } else {
-      return(NA)
+  lower <- support_lower(b, has_constant = TRUE)
+  xmin <- max(lower, xmin)
+  cdf <- GetCDF(b, check_normalization = FALSE)
+
+  out <- vapply(probs, function(p) {
+
+    g <- function(x) {
+      return(cdf(x) - p)
     }
-    
-  })
+    q <- try(stats::uniroot(g, lower = xmin, upper = xmax, extendInt = "upX")$root, silent = TRUE)
+    if (inherits(q, "try-error") || !is.numeric(q)) {
+      return(NA_real_)
+    }
+    return(q)
+
+  }, FUN.VALUE = 0.0)
   return(out)
 
 }

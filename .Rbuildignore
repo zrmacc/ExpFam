@@ -1,7 +1,22 @@
-^ExpFam\.Rproj$
+# IDE and project
+^.*\.Rproj$
 ^\.Rproj\.user$
-README.md
-README.Rmd
-README_cache
-README_files
+^\.Rhistory$
+^R/\.Rhistory$
+^\.\.Rcheck$
+^\.DS_Store$
+
+# Git and CI (exclude from package tarball)
+^\.github$
+^\.gitignore$
+
+# README build artifacts
+^README\.Rmd$
+^README\.cache$
+^README_cache$
+^README_files$
+^README\.html$
+^README\.md$
+
+# License (optional, keep if you want it in source only)
 ^LICENSE\.md$

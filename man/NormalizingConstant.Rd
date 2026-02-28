@@ -4,11 +4,13 @@
 \alias{NormalizingConstant}
 \title{Normalizing Constant}
 \usage{
-NormalizingConstant(b)
+NormalizingConstant(b, quiet = FALSE)
 }
 \arguments{
 \item{b}{Vector of coefficients for (x^k, x^k-1, ..., x). Note a coefficient
 for 1, i.e. the normalizing constant, should \emph{not} be included.}
+
+\item{quiet}{If FALSE, print a message about the assumed support.}
 }
 \value{
 Vector augmented with the log normalizing constant in final position.

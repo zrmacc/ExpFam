@@ -4,7 +4,7 @@
 \alias{GetCDF}
 \title{Cumulative Distribution Function}
 \usage{
-GetCDF(b, lower_tail = TRUE)
+GetCDF(b, lower_tail = TRUE, check_normalization = TRUE)
 }
 \arguments{
 \item{b}{Vector of coefficients for (x^k, x^k-1, ..., x, 1). Note a coefficient
@@ -12,9 +12,11 @@ for 1, i.e. the normalizing constant, \emph{should be} included.}
 
 \item{lower_tail}{Logical. If TRUE, integrates (-Inf, x). If FALSE,
 integrates (x, Inf).}
+
+\item{check_normalization}{If TRUE, verify that the density integrates to 1.}
 }
 \value{
-Function that evalutes the distribution.
+Function that evaluates the distribution.
 }
 \description{
 Returns a function to evaluate the cumulative distribution function of an

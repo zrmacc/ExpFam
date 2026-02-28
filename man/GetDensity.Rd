@@ -4,14 +4,18 @@
 \alias{GetDensity}
 \title{Density}
 \usage{
-GetDensity(b)
+GetDensity(b, check_normalization = TRUE)
 }
 \arguments{
 \item{b}{Vector of coefficients for (x^k, x^k-1, ..., x, 1). Note a coefficient
 for 1, i.e. the normalizing constant, \emph{should be} included.}
+
+\item{check_normalization}{If TRUE, verify that the density integrates to 1
+before returning (costs one numerical integration). Set FALSE if \code{b}
+was obtained from \code{NormalizingConstant}.}
 }
 \value{
-Function that evalutes the distribution.
+Function that evaluates the distribution.
 }
 \description{
 Returns a function to evaluate the density of an exponential family distribution of

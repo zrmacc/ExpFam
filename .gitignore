@@ -1,3 +1,21 @@
+# R and IDE
 .Rproj.user
-**/.DS_store
 **/.Rhistory
+*.Rproj
+
+# OS
+**/.DS_Store
+
+# README knit cache and output
+README_cache/
+README_files/
+*.html
+
+# Package build artifacts
+*.o
+*.so
+*.dll
+*.tar.gz
+*.zip
+.Rcheck/
+..Rcheck/

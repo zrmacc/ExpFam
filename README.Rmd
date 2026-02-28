@@ -3,12 +3,14 @@ title: "README"
 author: ""
 date: ""
 output: github_document
---- 
+---
+
+[![R-CMD-check](https://github.com/zrmacc/ExpFam/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/zrmacc/ExpFam/actions/workflows/R-CMD-check.yaml)
 
 # Exponential Families
 
-Zachary McCaw <br>
-Updated: 23-01-07
+Zachary McCaw  
+Updated: 2026-02-28
 
 ```{r global_options, include=FALSE}
 knitr::opts_chunk$set(cache = TRUE)
@@ -17,17 +19,18 @@ knitr::opts_chunk$set(cache = TRUE)
 ### Description
 
 Collection of functions for working with exponential family distributions of the form:
-$$
-f(x) = \exp\left\{\sum_{k=0}^{K}\beta_{k}x^{k}\right\}
-$$
 
-Notes: 
+`f(x) = exp(b[1]*x^K + b[2]*x^(K-1) + ... + b[K+1])`
 
-* If $K$ is even, the support of $f(x)$ is assumed to be $(-\infty, \infty)$. If $K$ is odd, the support is assumed to be $(0, \infty)$. 
+where the coefficient vector `b` has length K+1 (coefficients for x^K down to the constant term).
 
-* The coefficient of the highest order term, i.e. $\beta_{K}$ is assumed to be negative. 
 
-* The coefficient of the constant term, i.e. $\beta_{0}$ is the log of the normalizing constant.
+#### Notes
+
+* If the degree K is even, the support is the full real line $(-\infty, \infty)$. 
+* If K is odd, the support is the positive reals $(0, \infty)$. 
+* The coefficient of the highest-order term (leading coefficient) must be negative.
+* The constant term in `b` is the log of the normalizing constant.
 
 
 ## Installation
@@ -41,7 +44,7 @@ devtools::install_github(repo = "zrmacc/ExpFam")
 
 ### Normalizing constant
 
-Given the coefficients of the non-constant terms $(\beta_{K}, \beta_{K-1}, \dots, \beta_{1})$, determine the log normalizing constant $\beta_{0}$. Note the coefficients of the non-constant terms are given in descending order. 
+Given the coefficients of the non-constant terms (for x^K, x^(K-1), ..., x), `NormalizingConstant` determines the log normalizing constant and returns the full coefficient vector including that constant. Coefficients are in descending order of power. 
 
 ```{r}
 library(ExpFam)

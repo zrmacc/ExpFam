@@ -24,7 +24,14 @@ test_that("Test normalization checker.", {
   
   b_in <- c(-0.5, 0, 1)
   suppressMessages({
-    expect_warning((IsNormalized(b_in)))
+    expect_warning(IsNormalized(b_in))
   })
-  
+
+})
+
+test_that("NormalizingConstant errors on non-negative leading coefficient.", {
+
+  expect_error(NormalizingConstant(c(0, 1)), "leading coefficient must be negative")
+  expect_error(NormalizingConstant(c(1, 0)), "leading coefficient must be negative")
+
 })

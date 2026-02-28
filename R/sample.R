@@ -12,11 +12,16 @@
 #' # Draw from standard normal distribution.
 #' x <- rExpFam(b = c(-0.5, 0.0, -0.5 * log(2 * pi)), n = 10)
 #' @export
-rExpFam <- function(b, n, is_normalized = TRUE, xmin = -2, xmax = 2) {
+rExpFam <- function(
+  b,
+  n,
+  is_normalized = TRUE,
+  xmin = -2,
+  xmax = 2
+) {
   
-  # Calculate normalizing constant. 
   if (!is_normalized) {
-    b <- NormalizingConstant(b)
+    b <- NormalizingConstant(b, quiet = TRUE)
   }
   
   # Generate sample.

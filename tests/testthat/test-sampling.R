@@ -1,7 +1,7 @@
-test_that("Test quantile function.", {
-  
+test_that("Test sampling from exponential family.", {
+
   n <- 10
-  
+
   # Exponential distribution.
   b <- c(-2)
   withr::local_seed(101)

@@ -4,13 +4,15 @@
 \alias{IsNormalized}
 \title{Check Normalization}
 \usage{
-IsNormalized(b, tol = 1e-08)
+IsNormalized(b, tol = 1e-08, quiet = FALSE)
 }
 \arguments{
 \item{b}{Vector of coefficients for (x^k, x^k-1, ..., x, 1). Note a coefficient
 for 1, i.e. the normalizing constant, \emph{should be} included.}
 
 \item{tol}{Tolerance.}
+
+\item{quiet}{If FALSE, print a message about the assumed support.}
 }
 \value{
 Logical indicating whether the distribution integrates to 1.

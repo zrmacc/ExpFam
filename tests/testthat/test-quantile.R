@@ -12,6 +12,15 @@ test_that("Test quantile function.", {
   obs <- suppressMessages({GetQuantile(b, probs = probs)})
   exp <- stats::qnorm(probs)
   expect_equal(obs, exp, tolerance = 0.0001)
-  
+
+})
+
+test_that("GetQuantile returns same length as probs.", {
+
+  b <- c(-0.5, 0, -0.5 * log(2 * pi))
+  probs <- c(0.25, 0.5, 0.75)
+  obs <- suppressMessages(GetQuantile(b, probs = probs))
+  expect_length(obs, length(probs))
+
 })
 
